@@ -104,6 +104,19 @@ DATABASES = {
 }
 
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'NXgSbczYAimBVKVKxdeaiLvbjJwlPKHC',
+        'HOST': 'autorack.proxy.rlwy.net',
+        'PORT': '49601',
+    }
+}
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -141,6 +154,11 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static_build',  # Keep original static files here
 ]
+
+
+
+
+
 
 
 
