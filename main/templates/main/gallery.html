@@ -1,0 +1,157 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Galerie - Chez Ghizlane{% endblock %}
+
+{% block extra_css %}
+<style>
+    .gallery-container {
+        columns: 3;
+        column-gap: 20px;
+    }
+    
+    @media (max-width: 768px) {
+        .gallery-container {
+            columns: 2;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .gallery-container {
+            columns: 1;
+        }
+    }
+    
+    .gallery-item {
+        break-inside: avoid;
+        margin-bottom: 20px;
+    }
+    
+    .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    
+    .lightbox img {
+        max-width: 90%;
+        max-height: 90vh;
+        object-fit: contain;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Gallery Header -->
+<section class="hero moroccan-pattern">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="fade-in">Notre Galerie</h1>
+                <p class="lead fade-in">Découvrez nos plus belles réalisations</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Filter -->
+<section class="py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary active" data-filter="all">Tout</button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="coiffure">Coiffure</button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="lissage">Lissage</button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="soins">Soins Visage</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Grid -->
+<section class="gallery-section py-5">
+    <div class="container">
+        <div class="gallery-container">
+            <!-- Coiffure -->
+            <div class="gallery-item fade-in" data-category="coiffure">
+                <img src="{% static 'images/coiffure1.jpg' %}" alt="Coiffure 1" class="img-fluid rounded">
+            </div>
+            <div class="gallery-item fade-in" data-category="coiffure">
+                <img src="{% static 'images/coiffure2.jpg' %}" alt="Coiffure 2" class="img-fluid rounded">
+            </div>
+            <div class="gallery-item fade-in" data-category="coiffure">
+                <img src="{% static 'images/coiffure3.jpg' %}" alt="Coiffure 3" class="img-fluid rounded">
+            </div>
+            
+            <!-- Lissage -->
+            <div class="gallery-item fade-in" data-category="lissage">
+                <img src="{% static 'images/lissage1.jpg' %}" alt="Lissage 1" class="img-fluid rounded">
+            </div>
+            <div class="gallery-item fade-in" data-category="lissage">
+                <img src="{% static 'images/lissage2.jpg' %}" alt="Lissage 2" class="img-fluid rounded">
+            </div>
+            <div class="gallery-item fade-in" data-category="lissage">
+                <img src="{% static 'images/lissage3.jpg' %}" alt="Lissage 3" class="img-fluid rounded">
+            </div>
+            
+            <!-- Soins Visage -->
+            <div class="gallery-item fade-in" data-category="soins">
+                <img src="{% static 'images/soins1.jpg' %}" alt="Soins 1" class="img-fluid rounded">
+            </div>
+            <div class="gallery-item fade-in" data-category="soins">
+                <img src="{% static 'images/soins2.jpg' %}" alt="Soins 2" class="img-fluid rounded">
+            </div>
+            <div class="gallery-item fade-in" data-category="soins">
+                <img src="{% static 'images/soins3.jpg' %}" alt="Soins 3" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta py-5 moroccan-pattern">
+    <div class="container text-center">
+        <h2 class="mb-4">Envie d'un nouveau look ?</h2>
+        <p class="mb-4">Laissez-nous vous transformer et rejoignez notre galerie de looks réussis !</p>
+        <a href="{% url 'booking' %}" class="btn btn-booking">Réserver Maintenant</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gallery filtering
+        const filterButtons = document.querySelectorAll('[data-filter]');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.dataset.filter;
+                
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter gallery items
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,179 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Réservation - Chez Ghizlane{% endblock %}
+
+{% block content %}
+<!-- Booking Header -->
+<section class="hero moroccan-pattern">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="fade-in">Réservez Votre Rendez-vous</h1>
+                <p class="lead fade-in">Choisissez le moment idéal pour votre transformation</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Booking Form -->
+<section class="booking-form py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        {% if messages %}
+                        <div class="messages mb-4">
+                            {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <form method="post" class="fade-in">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-booking">Confirmer la Réservation</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Booking Information -->
+<section class="booking-info py-5 moroccan-pattern">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 fade-in">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-clock fa-3x mb-3" style="color: var(--primary-color)"></i>
+                        <h3>Horaires</h3>
+                        <ul class="list-unstyled">
+                            <li>Lundi - Samedi: 10:30 - 21:30</li>
+                            <li>Dimanche: Fermé</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-info-circle fa-3x mb-3" style="color: var(--primary-color)"></i>
+                        <h3>Important</h3>
+                        <ul class="list-unstyled">
+                            <li>Arrivez 5-10 minutes avant</li>
+                            <li>Annulation 24h à l'avance</li>
+                            <li>Paiement sur place</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-phone fa-3x mb-3" style="color: var(--primary-color)"></i>
+                        <h3>Contact</h3>
+                        <p>Pour toute question ou modification :</p>
+                        <p class="lead">0648-862490</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Preview -->
+<section class="services-preview py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Nos Services</h2>
+        <div class="row">
+            <div class="col-md-4 fade-in">
+                <div class="service-card text-center">
+                    <h3>Coiffure</h3>
+                    <p class="price">À partir de 150 MAD</p>
+                    <ul class="list-unstyled">
+                        <li>Coupe</li>
+                        <li>Brushing</li>
+                        <li>Coloration</li>
+                        <li>Coiffure de mariage</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in">
+                <div class="service-card text-center">
+                    <h3>Lissage</h3>
+                    <p class="price">À partir de 500 MAD</p>
+                    <ul class="list-unstyled">
+                        <li>Lissage brésilien</li>
+                        <li>Lissage japonais</li>
+                        <li>Traitement kératine</li>
+                        <li>Soins protéinés</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in">
+                <div class="service-card text-center">
+                    <h3>Soins Visage</h3>
+                    <p class="price">À partir de 200 MAD</p>
+                    <ul class="list-unstyled">
+                        <li>Nettoyage profond</li>
+                        <li>Masques personnalisés</li>
+                        <li>Traitement anti-âge</li>
+                        <li>Hydratation intense</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Cancellation Policy -->
+<section class="cancellation-policy py-5 moroccan-pattern">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center fade-in">
+                <h2 class="mb-4">Politique d'Annulation</h2>
+                <p>Pour assurer un service de qualité à toutes nos clientes, nous vous prions de :</p>
+                <ul class="list-unstyled">
+                    <li>Annuler ou modifier votre rendez-vous au moins 24h à l'avance</li>
+                    <li>Arriver à l'heure pour profiter pleinement de votre soin</li>
+                    <li>Nous contacter en cas d'imprévu</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Set minimum date for booking
+    const dateInput = document.querySelector('input[type="date"]');
+    if (dateInput) {
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        dateInput.min = tomorrow.toISOString().split('T')[0];
+    }
+
+    // Disable Sundays in the date picker
+    dateInput.addEventListener('input', function() {
+        const selectedDate = new Date(this.value);
+        if (selectedDate.getDay() === 0) { // Sunday
+            alert('Nous sommes fermés le dimanche. Veuillez choisir un autre jour.');
+            this.value = '';
+        }
+    });
+});
+</script>
+{% endblock %}

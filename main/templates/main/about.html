@@ -1,0 +1,150 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}À Propos - Chez Ghizlane{% endblock %}
+
+{% block content %}
+<!-- About Header -->
+<section class="hero moroccan-pattern">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="fade-in">À Propos de Nous</h1>
+                <p class="lead fade-in">Découvrez l'histoire et l'expertise de Chez Ghizlane</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story -->
+<section class="our-story py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 fade-in">
+                <img src="{% static 'images/salon.jpg' %}" alt="Notre Salon" class="img-fluid rounded">
+            </div>
+            <div class="col-md-6 fade-in">
+                <h2>Notre Histoire</h2>
+                <p class="lead">Depuis notre ouverture, Chez Ghizlane s'est établi comme une référence en matière de beauté à Kénitra.</p>
+                <p>Fondé avec la passion de la beauté et le souci du détail, notre salon combine expertise professionnelle et atmosphère chaleureuse pour offrir une expérience unique à chaque cliente.</p>
+                <p>Notre mission est de vous faire sentir belle et confiante, en utilisant des produits de qualité et des techniques innovantes.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Values -->
+<section class="our-values py-5 moroccan-pattern">
+    <div class="container">
+        <h2 class="text-center mb-5">Nos Valeurs</h2>
+        <div class="row">
+            <div class="col-md-4 fade-in">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-heart fa-3x mb-3" style="color: var(--primary-color)"></i>
+                        <h3>Passion</h3>
+                        <p>Nous mettons tout notre cœur dans chaque service pour vous offrir le meilleur résultat possible.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-star fa-3x mb-3" style="color: var(--primary-color)"></i>
+                        <h3>Excellence</h3>
+                        <p>Notre équipe se forme continuellement pour vous proposer les dernières tendances et techniques.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-smile fa-3x mb-3" style="color: var(--primary-color)"></i>
+                        <h3>Satisfaction</h3>
+                        <p>Votre bonheur est notre priorité. Nous nous engageons à dépasser vos attentes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Team -->
+<section class="our-team py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Notre Équipe</h2>
+        <div class="row">
+            <div class="col-md-4 fade-in">
+                <div class="team-member text-center">
+                    <img src="{% static 'images/team1.jpg' %}" alt="Ghizlane" class="rounded-circle mb-3" style="width: 200px; height: 200px; object-fit: cover;">
+                    <h3>Ghizlane</h3>
+                    <p class="text-muted">Fondatrice & Directrice Artistique</p>
+                    <p>Plus de 15 ans d'expérience dans le domaine de la beauté</p>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in">
+                <div class="team-member text-center">
+                    <img src="{% static 'images/team2.jpg' %}" alt="Sarah" class="rounded-circle mb-3" style="width: 200px; height: 200px; object-fit: cover;">
+                    <h3>Sarah</h3>
+                    <p class="text-muted">Spécialiste Coiffure</p>
+                    <p>Experte en colorations et coupes tendance</p>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in">
+                <div class="team-member text-center">
+                    <img src="{% static 'images/team3.jpg' %}" alt="Amina" class="rounded-circle mb-3" style="width: 200px; height: 200px; object-fit: cover;">
+                    <h3>Amina</h3>
+                    <p class="text-muted">Esthéticienne</p>
+                    <p>Spécialiste en soins du visage et du corps</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="why-choose-us py-5 moroccan-pattern">
+    <div class="container">
+        <h2 class="text-center mb-5">Pourquoi Nous Choisir ?</h2>
+        <div class="row">
+            <div class="col-md-6 col-lg-3 fade-in">
+                <div class="feature text-center mb-4">
+                    <i class="fas fa-certificate fa-3x mb-3" style="color: var(--primary-color)"></i>
+                    <h4>Expertise Professionnelle</h4>
+                    <p>Une équipe qualifiée et passionnée</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 fade-in">
+                <div class="feature text-center mb-4">
+                    <i class="fas fa-gem fa-3x mb-3" style="color: var(--primary-color)"></i>
+                    <h4>Produits de Qualité</h4>
+                    <p>Les meilleures marques pour votre beauté</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 fade-in">
+                <div class="feature text-center mb-4">
+                    <i class="fas fa-clock fa-3x mb-3" style="color: var(--primary-color)"></i>
+                    <h4>Horaires Flexibles</h4>
+                    <p>Ouvert 6 jours sur 7</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 fade-in">
+                <div class="feature text-center mb-4">
+                    <i class="fas fa-map-marked-alt fa-3x mb-3" style="color: var(--primary-color)"></i>
+                    <h4>Emplacement Idéal</h4>
+                    <p>Facilement accessible à Kénitra</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Prête à vivre l'expérience Chez Ghizlane ?</h2>
+        <p class="mb-4">Rejoignez notre famille de clientes satisfaites</p>
+        <a href="{% url 'booking' %}" class="btn btn-booking">Réserver Maintenant</a>
+    </div>
+</section>
+{% endblock %}

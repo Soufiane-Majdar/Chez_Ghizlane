@@ -1,0 +1,119 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Contact - Chez Ghizlane{% endblock %}
+
+{% block content %}
+<!-- Contact Header -->
+<section class="hero moroccan-pattern">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="fade-in">Contactez-nous</h1>
+                <p class="lead fade-in">Nous sommes à votre écoute</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Information -->
+<section class="contact-info py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 fade-in">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-map-marker-alt fa-3x mb-3" style="color: var(--primary-color)"></i>
+                        <h3>Adresse</h3>
+                        <p>Résidence Hiba B, 1411 Lot La,<br>Rue du Vallon, Kénitra 14070</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-phone fa-3x mb-3" style="color: var(--primary-color)"></i>
+                        <h3>Téléphone</h3>
+                        <p>0648-862490</p>
+                        <p class="text-muted">Lun-Sam: 10:30 - 21:30</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-envelope fa-3x mb-3" style="color: var(--primary-color)"></i>
+                        <h3>Email</h3>
+                        <p>contact@chezghizlane.ma</p>
+                        <p class="text-muted">Nous vous répondrons dans les plus brefs délais</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form -->
+<section class="contact-form py-5 moroccan-pattern">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-center mb-4">Envoyez-nous un message</h2>
+                        {% if messages %}
+                        <div class="messages">
+                            {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <form method="post" class="fade-in">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-booking">Envoyer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="map-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="map-container fade-in">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.2616756891394!2d-6.5800922!3d34.2505897!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda759f9847310bd%3A0x3c742c4497e8f91b!2sKenitra%2C%20Morocco!5e0!3m2!1sen!2s!4v1635000000000!5m2!1sen!2s"
+                        width="100%"
+                        height="450"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Social Media Links -->
+<section class="social-links py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Suivez-nous sur les réseaux sociaux</h2>
+        <div class="social-icons fade-in">
+            <a href="#" class="mx-3"><i class="fab fa-facebook fa-2x"></i></a>
+            <a href="#" class="mx-3"><i class="fab fa-instagram fa-2x"></i></a>
+            <a href="#" class="mx-3"><i class="fab fa-whatsapp fa-2x"></i></a>
+        </div>
+    </div>
+</section>
+{% endblock %}
