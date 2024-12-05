@@ -1,108 +1,113 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
-{% block title %}Chez Ghizlane - Salon de Beauté à Kénitra{% endblock %}
-
 {% block content %}
 <!-- Hero Section -->
-<section class="hero moroccan-pattern">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="fade-in">🌟 Bienvenue chez Ghizlane</h1>
-                <p class="lead fade-in">où chaque visite est une expérience de beauté inoubliable ! ✂️</p>
-                <a href="{% url 'booking' %}" class="btn btn-booking mt-4 fade-in">Réserver Maintenant</a>
+<section class="hero">
+    <div class="hero-content" {% if site_settings.hero_image %}style="background-image: url('{{ site_settings.hero_image.url }}');"{% endif %}>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 offset-md-2 text-center">
+                    <h1 class="display-4">{{ site_settings.hero_title|default:"Bienvenue chez Ghizlane" }}</h1>
+                    <p class="lead">{{ site_settings.hero_subtitle|default:"Votre salon de beauté à Kénitra" }}</p>
+                    <a href="{% url 'booking' %}" class="btn" style="background-color: #019B89; color: white;">Réserver maintenant</a>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Services Preview -->
-<section class="services py-5">
+<section class="services-preview py-5">
     <div class="container">
         <h2 class="text-center mb-5">Nos Services</h2>
         <div class="row">
-            <div class="col-md-4 fade-in">
-                <div class="service-card text-center">
-                    <i class="fas fa-cut fa-3x mb-3" style="color: var(--primary-color)"></i>
-                    <h3>Coiffure</h3>
-                    <p>Transformez votre look avec nos services de coiffure professionnels</p>
+            {% for service in services %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if service.image %}
+                    <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.name }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ service.name }}</h5>
+                        <p class="card-text">{{ service.description }}</p>
+                        <p class="card-text"><strong>Prix:</strong> {{ service.price }} MAD</p>
+                        <p class="card-text"><small class="text-muted">Durée: {{ service.duration }}</small></p>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4 fade-in">
-                <div class="service-card text-center">
-                    <i class="fas fa-magic fa-3x mb-3" style="color: var(--primary-color)"></i>
-                    <h3>Lissage</h3>
-                    <p>Des cheveux lisses et soyeux avec nos traitements spécialisés</p>
-                </div>
-            </div>
-            <div class="col-md-4 fade-in">
-                <div class="service-card text-center">
-                    <i class="fas fa-spa fa-3x mb-3" style="color: var(--primary-color)"></i>
-                    <h3>Soins Visage</h3>
-                    <p>Révélez votre beauté naturelle avec nos soins du visage</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         <div class="text-center mt-4">
-            <a href="{% url 'services' %}" class="btn btn-outline-primary">Voir Tous Nos Services</a>
+            <a href="{% url 'services' %}" class="btn" style="background-color: #019B89; color: white;">Voir tous nos services</a>
         </div>
     </div>
 </section>
+
+<!-- Promotions Section -->
+{% if promotions %}
+<section class="promotions py-5" style="background-color: rgba(1, 155, 137, 0.05);">
+    <div class="container">
+        <h2 class="text-center mb-5" style="color: #019B89;">Offres Spéciales</h2>
+        <div class="row">
+            {% for promo in promotions %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if promo.image %}
+                    <img src="{{ promo.image.url }}" class="card-img-top" alt="{{ promo.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ promo.title }}</h5>
+                        <p class="card-text">{{ promo.description }}</p>
+                        <p class="card-text"><small class="text-muted">Valable jusqu'au {{ promo.end_date }}</small></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
 
 <!-- Testimonials -->
-<section class="testimonials py-5 moroccan-pattern">
+{% if testimonials %}
+<section class="testimonials py-5">
     <div class="container">
-        <h2 class="text-center mb-5">Ce Que Disent Nos Clients</h2>
+        <h2 class="text-center mb-5">Ce que disent nos clients</h2>
         <div class="row">
-            <div class="col-md-4 fade-in">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Un service exceptionnel ! L'équipe est professionnelle et attentionnée."</p>
-                    <p class="testimonial-author">- Sarah B.</p>
+            {% for testimonial in testimonials %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        {% if testimonial.photo %}
+                        <img src="{{ testimonial.photo.url }}" class="rounded-circle mb-3" alt="{{ testimonial.name }}" style="width: 100px; height: 100px; object-fit: cover;">
+                        {% endif %}
+                        <p class="card-text">{{ testimonial.comment }}</p>
+                        <div class="rating mb-2">
+                            {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= testimonial.rating %}
+                            <i class="fas fa-star text-warning"></i>
+                            {% else %}
+                            <i class="far fa-star text-warning"></i>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <h5 class="card-title mb-0">{{ testimonial.name }}</h5>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4 fade-in">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Les meilleurs soins de beauté à Kénitra. Je recommande vivement !"</p>
-                    <p class="testimonial-author">- Fatima M.</p>
-                </div>
-            </div>
-            <div class="col-md-4 fade-in">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">"Ambiance chaleureuse et résultats impeccables. Je reviendrai !"</p>
-                    <p class="testimonial-author">- Leila R.</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
 
 <!-- Call to Action -->
-<section class="cta py-5">
+<section class="cta py-5" style="background-color: #019B89; color: white;">
     <div class="container text-center">
-        <h2 class="mb-4">Prenez rendez-vous dès aujourd'hui</h2>
-        <p class="mb-4">Découvrez pourquoi Chez Ghizlane est le choix préféré des amateurs de beauté exigeants !</p>
-        <a href="{% url 'booking' %}" class="btn btn-booking">Réserver Maintenant</a>
-    </div>
-</section>
-
-<!-- Hours and Location -->
-<section class="info py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 fade-in">
-                <h3>Horaires d'Ouverture</h3>
-                <ul class="list-unstyled">
-                    <li><strong>Lundi - Samedi:</strong> 10:30 - 21:30</li>
-                    <li><strong>Dimanche:</strong> Fermé</li>
-                </ul>
-            </div>
-            <div class="col-md-6 fade-in">
-                <h3>Notre Adresse</h3>
-                <p>Résidence Hiba B, 1411 Lot La, Rue du Vallon, Kénitra 14070</p>
-                <p><i class="fas fa-phone"></i> 0648-862490</p>
-            </div>
-        </div>
+        <h2 class="mb-4">Prête à vous faire belle?</h2>
+        <p class="lead mb-4">Réservez votre rendez-vous dès maintenant et profitez de nos services professionnels.</p>
+        <a href="{% url 'booking' %}" class="btn btn-light btn-lg">Réserver un rendez-vous</a>
     </div>
 </section>
 {% endblock %}

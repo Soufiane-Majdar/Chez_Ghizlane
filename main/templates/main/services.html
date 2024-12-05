@@ -5,12 +5,12 @@
 
 {% block content %}
 <!-- Services Header -->
-<section class="hero moroccan-pattern">
+<section class="page-header py-5" style="background-color: rgba(1, 155, 137, 0.1);">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="fade-in">Nos Services</h1>
-                <p class="lead fade-in">Découvrez notre gamme complète de services de beauté</p>
+            <div class="col-md-8 mx-auto text-center">
+                <h1 class="display-4 mb-3" style="color: #019B89;">Nos Services</h1>
+                <p class="lead">Découvrez notre gamme complète de services de beauté</p>
             </div>
         </div>
     </div>
@@ -19,107 +19,47 @@
 <!-- Services List -->
 <section class="services-list py-5">
     <div class="container">
-        <!-- Coiffure -->
-        <div class="row mb-5 fade-in">
-            <div class="col-md-6">
-                <img src="{% static 'images/coiffure.jpg' %}" alt="Service de Coiffure" class="img-fluid rounded">
-            </div>
-            <div class="col-md-6">
-                <h2>Coiffure</h2>
-                <p class="lead">Transformez votre look avec nos services de coiffure professionnels</p>
-                <ul class="list-unstyled">
-                    <li><i class="fas fa-check text-primary"></i> Coupe et Brushing</li>
-                    <li><i class="fas fa-check text-primary"></i> Coloration</li>
-                    <li><i class="fas fa-check text-primary"></i> Mèches et Balayage</li>
-                    <li><i class="fas fa-check text-primary"></i> Coiffure de Mariage</li>
-                </ul>
-                <p class="text-muted">À partir de 150 MAD</p>
-                <a href="{% url 'booking' %}" class="btn btn-booking">Réserver</a>
-            </div>
-        </div>
-
-        <!-- Lissage -->
-        <div class="row mb-5 fade-in">
-            <div class="col-md-6 order-md-2">
-                <img src="{% static 'images/lissage.jpg' %}" alt="Service de Lissage" class="img-fluid rounded">
-            </div>
-            <div class="col-md-6 order-md-1">
-                <h2>Lissage</h2>
-                <p class="lead">Des cheveux lisses et soyeux avec nos traitements spécialisés</p>
-                <ul class="list-unstyled">
-                    <li><i class="fas fa-check text-primary"></i> Lissage Brésilien</li>
-                    <li><i class="fas fa-check text-primary"></i> Lissage Japonais</li>
-                    <li><i class="fas fa-check text-primary"></i> Traitement à la Kératine</li>
-                    <li><i class="fas fa-check text-primary"></i> Soins Protéinés</li>
-                </ul>
-                <p class="text-muted">À partir de 500 MAD</p>
-                <a href="{% url 'booking' %}" class="btn btn-booking">Réserver</a>
-            </div>
-        </div>
-
-        <!-- Soins Visage -->
-        <div class="row mb-5 fade-in">
-            <div class="col-md-6">
-                <img src="{% static 'images/soins-visage.jpg' %}" alt="Soins du Visage" class="img-fluid rounded">
-            </div>
-            <div class="col-md-6">
-                <h2>Soins Visage</h2>
-                <p class="lead">Révélez votre beauté naturelle avec nos soins du visage</p>
-                <ul class="list-unstyled">
-                    <li><i class="fas fa-check text-primary"></i> Nettoyage Profond</li>
-                    <li><i class="fas fa-check text-primary"></i> Masques Personnalisés</li>
-                    <li><i class="fas fa-check text-primary"></i> Traitement Anti-âge</li>
-                    <li><i class="fas fa-check text-primary"></i> Hydratation Intense</li>
-                </ul>
-                <p class="text-muted">À partir de 200 MAD</p>
-                <a href="{% url 'booking' %}" class="btn btn-booking">Réserver</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Promotions -->
-<section class="promotions py-5 moroccan-pattern">
-    <div class="container">
-        <h2 class="text-center mb-4">Offres Spéciales</h2>
         <div class="row">
-            <div class="col-md-4 fade-in">
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                        <h3>Pack Mariée</h3>
-                        <p>Coiffure + Maquillage + Soins</p>
-                        <p class="text-primary font-weight-bold">1500 MAD</p>
+            {% for service in services %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            {% if service.image %}
+                            <img src="{{ service.image.url }}" class="img-fluid rounded-start h-100" alt="{{ service.name }}" style="object-fit: cover;">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title" style="color: #019B89;">{{ service.name }}</h5>
+                                <p class="card-text">{{ service.description }}</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <p class="card-text mb-0"><strong>{{ service.price }} MAD</strong></p>
+                                    <p class="card-text"><small class="text-muted">Durée: {{ service.duration }}</small></p>
+                                </div>
+                                <div class="mt-3">
+                                    <a href="{% url 'booking' %}" class="btn" style="background-color: #019B89; color: white;">Réserver</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 fade-in">
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                        <h3>Pack Étudiante</h3>
-                        <p>-20% sur tous les services</p>
-                        <p class="text-primary">Sur présentation de la carte</p>
-                    </div>
-                </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>Aucun service n'est disponible pour le moment.</p>
             </div>
-            <div class="col-md-4 fade-in">
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                        <h3>Carte Fidélité</h3>
-                        <p>10ème soin offert</p>
-                        <p class="text-primary">Demandez votre carte !</p>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
 
 <!-- Call to Action -->
-<section class="cta py-5">
+<section class="cta py-5" style="background-color: rgba(1, 155, 137, 0.1);">
     <div class="container text-center">
-        <h2 class="mb-4">Prête à vous faire chouchouter ?</h2>
-        <p class="mb-4">Réservez votre rendez-vous dès maintenant et profitez de nos services exceptionnels !</p>
-        <a href="{% url 'booking' %}" class="btn btn-booking">Réserver Maintenant</a>
+        <h2 class="mb-4" style="color: #019B89;">Prête pour votre transformation?</h2>
+        <p class="lead mb-4">Réservez votre rendez-vous dès maintenant et laissez-nous prendre soin de vous.</p>
+        <a href="{% url 'booking' %}" class="btn btn-lg" style="background-color: #019B89; color: white;">Réserver un rendez-vous</a>
     </div>
 </section>
 {% endblock %}

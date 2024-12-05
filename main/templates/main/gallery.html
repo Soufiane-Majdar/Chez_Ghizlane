@@ -50,27 +50,27 @@
 
 {% block content %}
 <!-- Gallery Header -->
-<section class="hero moroccan-pattern">
+<section class="page-header py-5" style="background-color: rgba(1, 155, 137, 0.1);">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h1 class="fade-in">Notre Galerie</h1>
-                <p class="lead fade-in">Découvrez nos plus belles réalisations</p>
+            <div class="col-md-8 mx-auto text-center">
+                <h1 class="display-4 mb-3" style="color: #019B89;">Notre Galerie</h1>
+                <p class="lead">Découvrez nos plus belles réalisations</p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Gallery Filter -->
-<section class="py-4">
+<section class="gallery-filter py-4">
     <div class="container">
         <div class="row">
-            <div class="col-12 text-center mb-4">
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-outline-primary active" data-filter="all">Tout</button>
-                    <button type="button" class="btn btn-outline-primary" data-filter="coiffure">Coiffure</button>
-                    <button type="button" class="btn btn-outline-primary" data-filter="lissage">Lissage</button>
-                    <button type="button" class="btn btn-outline-primary" data-filter="soins">Soins Visage</button>
+            <div class="col-12 text-center">
+                <div class="btn-group filter-buttons mb-4" role="group">
+                    <button type="button" class="btn btn-outline-success active" data-filter="all" style="border-color: #019B89; color: #019B89;">Tout</button>
+                    {% for category_code, category_name in categories %}
+                    <button type="button" class="btn btn-outline-success" data-filter="{{ category_code }}" style="border-color: #019B89; color: #019B89;">{{ category_name }}</button>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -78,80 +78,83 @@
 </section>
 
 <!-- Gallery Grid -->
-<section class="gallery-section py-5">
+<section class="gallery-grid py-5">
     <div class="container">
-        <div class="gallery-container">
-            <!-- Coiffure -->
-            <div class="gallery-item fade-in" data-category="coiffure">
-                <img src="{% static 'images/coiffure1.jpg' %}" alt="Coiffure 1" class="img-fluid rounded">
+        <div class="row">
+            {% for item in gallery_items %}
+            <div class="col-md-4 col-sm-6 mb-4 gallery-item" data-category="{{ item.category }}">
+                <div class="card h-100 shadow-sm">
+                    <a href="{{ item.image.url }}" data-lightbox="gallery" data-title="{{ item.title }}">
+                        <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}" style="height: 250px; object-fit: cover;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: #019B89;">{{ item.title }}</h5>
+                        <p class="card-text"><small class="text-muted">{{ item.get_category_display }}</small></p>
+                    </div>
+                </div>
             </div>
-            <div class="gallery-item fade-in" data-category="coiffure">
-                <img src="{% static 'images/coiffure2.jpg' %}" alt="Coiffure 2" class="img-fluid rounded">
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>Aucune image n'est disponible pour le moment.</p>
             </div>
-            <div class="gallery-item fade-in" data-category="coiffure">
-                <img src="{% static 'images/coiffure3.jpg' %}" alt="Coiffure 3" class="img-fluid rounded">
-            </div>
-            
-            <!-- Lissage -->
-            <div class="gallery-item fade-in" data-category="lissage">
-                <img src="{% static 'images/lissage1.jpg' %}" alt="Lissage 1" class="img-fluid rounded">
-            </div>
-            <div class="gallery-item fade-in" data-category="lissage">
-                <img src="{% static 'images/lissage2.jpg' %}" alt="Lissage 2" class="img-fluid rounded">
-            </div>
-            <div class="gallery-item fade-in" data-category="lissage">
-                <img src="{% static 'images/lissage3.jpg' %}" alt="Lissage 3" class="img-fluid rounded">
-            </div>
-            
-            <!-- Soins Visage -->
-            <div class="gallery-item fade-in" data-category="soins">
-                <img src="{% static 'images/soins1.jpg' %}" alt="Soins 1" class="img-fluid rounded">
-            </div>
-            <div class="gallery-item fade-in" data-category="soins">
-                <img src="{% static 'images/soins2.jpg' %}" alt="Soins 2" class="img-fluid rounded">
-            </div>
-            <div class="gallery-item fade-in" data-category="soins">
-                <img src="{% static 'images/soins3.jpg' %}" alt="Soins 3" class="img-fluid rounded">
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
 
 <!-- Call to Action -->
-<section class="cta py-5 moroccan-pattern">
+<section class="cta py-5" style="background-color: rgba(1, 155, 137, 0.1);">
     <div class="container text-center">
-        <h2 class="mb-4">Envie d'un nouveau look ?</h2>
-        <p class="mb-4">Laissez-nous vous transformer et rejoignez notre galerie de looks réussis !</p>
-        <a href="{% url 'booking' %}" class="btn btn-booking">Réserver Maintenant</a>
+        <h2 class="mb-4" style="color: #019B89;">Envie d'un nouveau look?</h2>
+        <p class="lead mb-4">Laissez-nous vous transformer! Réservez votre rendez-vous maintenant.</p>
+        <a href="{% url 'booking' %}" class="btn btn-lg" style="background-color: #019B89; color: white;">Réserver un rendez-vous</a>
     </div>
 </section>
-{% endblock %}
 
 {% block extra_js %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Gallery filtering
-        const filterButtons = document.querySelectorAll('[data-filter]');
-        const galleryItems = document.querySelectorAll('.gallery-item');
+$(document).ready(function(){
+    // Gallery filtering
+    $('.filter-buttons button').click(function(){
+        $('.filter-buttons button').removeClass('active');
+        $(this).addClass('active');
         
-        filterButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const filter = this.dataset.filter;
-                
-                // Update active button
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Filter gallery items
-                galleryItems.forEach(item => {
-                    if (filter === 'all' || item.dataset.category === filter) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        });
+        var filterValue = $(this).attr('data-filter');
+        
+        if(filterValue == 'all'){
+            $('.gallery-item').show();
+        } else {
+            $('.gallery-item').hide();
+            $('.gallery-item[data-category="'+filterValue+'"]').show();
+        }
     });
+
+    // Style active buttons
+    $('.filter-buttons button.active').css({
+        'background-color': '#019B89',
+        'color': '#fff',
+        'border-color': '#019B89'
+    });
+
+    $('.filter-buttons button').hover(
+        function() {
+            if (!$(this).hasClass('active')) {
+                $(this).css({
+                    'background-color': '#019B89',
+                    'color': '#fff'
+                });
+            }
+        },
+        function() {
+            if (!$(this).hasClass('active')) {
+                $(this).css({
+                    'background-color': 'transparent',
+                    'color': '#019B89'
+                });
+            }
+        }
+    );
+});
 </script>
+{% endblock %}
 {% endblock %}

@@ -10,7 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Function to get env variables
+def get_env_value(env_variable):
+    try:
+        return os.environ[env_variable]
+    except KeyError:
+        error_msg = f'Set the {env_variable} environment variable'
+        raise ImproperlyConfigured(error_msg)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +34,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-pc+6q(=bj*96#6urtal+t$ms6208qf$&(id6m3b^3+geo@bypv'
+SECRET_KEY = get_env_value('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -43,6 +57,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     'compressor',
     'bootstrap4',
+    'cloudinary_storage',  
+    'cloudinary',         
 ]
 
 MIDDLEWARE = [
@@ -123,8 +139,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / 'static_build',  # Keep original static files here
 ]
+
+
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -132,12 +150,17 @@ STATICFILES_FINDERS = [
     'compressor.finders.CompressorFinder',
 ]
 
-# Media files settings
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Media files configuration
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+MEDIA_URL = '/media/'  # This is still needed for local development
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Local media directory
 
-# Crispy Forms settings
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# Cloudinary settings
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': get_env_value('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': get_env_value('CLOUDINARY_API_KEY'),
+    'API_SECRET': get_env_value('CLOUDINARY_API_SECRET'),
+}
 
 # Email settings (update these with your email settings)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

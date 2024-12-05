@@ -1,73 +1,67 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.core.mail import send_mail
-from django.conf import settings
 from .forms import ContactForm, BookingForm
+from .models import Service, Gallery, Testimonial, TeamMember, SiteSettings, Promotion
 
-# Create your views here.
+def get_common_context():
+    try:
+        site_settings = SiteSettings.objects.first()
+    except SiteSettings.DoesNotExist:
+        site_settings = None
+    return {'site_settings': site_settings}
 
 def home(request):
-    return render(request, 'main/home.html')
+    context = get_common_context()
+    context.update({
+        'services': Service.objects.filter(is_active=True).order_by('order')[:6],
+        'testimonials': Testimonial.objects.filter(is_active=True).order_by('order')[:6],
+        'promotions': Promotion.objects.filter(is_active=True).order_by('order'),
+    })
+    return render(request, 'main/home.html', context)
 
 def services(request):
-    services_list = [
-        {
-            'name': 'Coiffure',
-            'description': 'Coupes, brushings, et coiffures pour toutes occasions',
-            'price': 'À partir de 150 MAD'
-        },
-        {
-            'name': 'Lissage',
-            'description': 'Lissage brésilien, japonais, et traitements professionnels',
-            'price': 'À partir de 500 MAD'
-        },
-        {
-            'name': 'Soins Visage',
-            'description': 'Nettoyage, masques, et soins personnalisés',
-            'price': 'À partir de 200 MAD'
-        }
-    ]
-    return render(request, 'main/services.html', {'services': services_list})
+    context = get_common_context()
+    context.update({
+        'services': Service.objects.filter(is_active=True).order_by('order'),
+    })
+    return render(request, 'main/services.html', context)
 
 def gallery(request):
-    return render(request, 'main/gallery.html')
+    context = {
+        'gallery_items': Gallery.objects.filter(is_active=True).order_by('order'),
+        'categories': Gallery.CATEGORY_CHOICES,
+    }
+    return render(request, 'main/gallery.html', context)
 
 def about(request):
-    return render(request, 'main/about.html')
+    context = {
+        'site_settings': SiteSettings.objects.first(),
+        'team_members': TeamMember.objects.filter(is_active=True).order_by('order'),
+    }
+    return render(request, 'main/about.html', context)
 
 def contact(request):
+    context = get_common_context()
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
-            email = form.cleaned_data['email']
-            message = form.cleaned_data['message']
-            
-            # Send email
-            send_mail(
-                f'Nouveau message de {name}',
-                message,
-                email,
-                [settings.DEFAULT_FROM_EMAIL],
-                fail_silently=False,
-            )
-            
+            # Process the form data here
             messages.success(request, 'Votre message a été envoyé avec succès!')
             return redirect('contact')
     else:
         form = ContactForm()
-    
-    return render(request, 'main/contact.html', {'form': form})
+    context['form'] = form
+    return render(request, 'main/contact.html', context)
 
 def booking(request):
+    context = get_common_context()
     if request.method == 'POST':
         form = BookingForm(request.POST)
         if form.is_valid():
-            # Process the booking
             form.save()
-            messages.success(request, 'Votre rendez-vous a été réservé avec succès!')
+            messages.success(request, 'Votre réservation a été effectuée avec succès!')
             return redirect('booking')
     else:
         form = BookingForm()
-    
-    return render(request, 'main/booking.html', {'form': form})
+    context['form'] = form
+    return render(request, 'main/booking.html', context)
